@@ -65,7 +65,7 @@ public class Venda {
                 System.out.println("\nProduto encontrado!");
                 produtoEncontrado.imprimeProduto();
 
-                int quantidade = 0;
+                int quantidade;
 
                 while (true) {
 
@@ -74,10 +74,27 @@ public class Venda {
                     System.out.print("Escolha: ");
 
                     int op = leia.nextInt();
+
                     if (op==1){
                         System.out.print("\nDigite a quantidade: ");
                         quantidade = leia.nextInt();
-                        break;
+
+                        if (produtoEncontrado.getQuantidade() <= 0) {
+                            System.out.println("Estoque zerado...");
+                            return;
+
+                        } else if (quantidade <= 0) {
+                            System.out.println("Quantidade inválida");
+                        } else if (produtoEncontrado.getQuantidade() < quantidade) {
+                            System.out.println("Estoque insuficiente");
+                            System.out.println("Estoque: " + produtoEncontrado.getQuantidade());
+                        } else {
+                            System.out.println("\nProduto: " + produtoEncontrado.getNome());
+                            System.out.println("Total: R$ " + (produtoEncontrado.getValor() * quantidade));
+                            break;
+
+                        }
+
                     }
                     else if (op == 2) {
                         System.out.println("Venda cancelada!");
@@ -85,24 +102,8 @@ public class Venda {
                     }else{
                         System.out.println("Opção Inválida");
                     }
-
-
-
-
-                    if (produtoEncontrado.getQuantidade() <= 0) {
-                        System.out.println("Estoque zerado...");
-                        return;
-                    } else if (quantidade <= 0) {
-                        System.out.println("Quantidade inválida");
-                    } else if (produtoEncontrado.getQuantidade() < quantidade) {
-                        System.out.println("Estoque insuficiente");
-                        System.out.println("Estoque: " + produtoEncontrado.getQuantidade());
-                    } else {
-                        System.out.println("\nProduto: " + produtoEncontrado.getNome());
-                        System.out.println("Total: R$ " + (produtoEncontrado.getValor() * quantidade));
-                        break;
-                    }
                 }
+
 
                 if (quantidade == 0) {
                     continue;
