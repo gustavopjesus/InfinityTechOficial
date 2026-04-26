@@ -75,7 +75,7 @@ public class StartNow {
                                 break;
                             case 3:
                                 Venda vendaProduto = new Venda();
-                                vendaProduto.vendaProduto(lista, venda, relatorioVendas);
+                                vendaProduto.vendaProduto(lista,relatorioVendas);
                                 break;
                             case 4:
                                 continuar = false;

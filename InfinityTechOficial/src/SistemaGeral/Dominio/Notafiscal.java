@@ -9,8 +9,10 @@ import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Notafiscal {
 
@@ -29,24 +31,81 @@ public class Notafiscal {
             LocalDateTime agora = LocalDateTime.now();
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
+            NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+            double valorUnitario = valorTotal / quantidade;
+            int numeroNota = (int) (Math.random() * 10000);
+
             conteudo.beginText();
-            conteudo.setFont(titulo, 18);
-            conteudo.newLineAtOffset(220, 750);
-            conteudo.showText("NOTA FISCAL - INFINITY TECH");
+            conteudo.setFont(titulo, 20);
+            conteudo.newLineAtOffset(180, 750);
+            conteudo.showText("INFINITY TECH");
             conteudo.endText();
 
             conteudo.beginText();
             conteudo.setFont(texto, 12);
-            conteudo.newLineAtOffset(80, 700);
+            conteudo.newLineAtOffset(210, 730);
+            conteudo.showText("NOTA FISCAL");
+            conteudo.endText();
+
+            conteudo.beginText();
+            conteudo.setFont(texto, 10);
+            conteudo.newLineAtOffset(50, 700);
             conteudo.showText("Data/Hora: " + agora.format(formato));
-            conteudo.newLineAtOffset(0, -30);
-            conteudo.showText("Produto: " + nomeProduto);
-            conteudo.newLineAtOffset(0, -30);
-            conteudo.showText("Quantidade: " + quantidade);
-            conteudo.newLineAtOffset(0, -30);
-            conteudo.showText("Valor total: R$ " + valorTotal);
-            conteudo.newLineAtOffset(0, -40);
-            conteudo.showText("Obrigado pela compra!");
+            conteudo.endText();
+
+            conteudo.beginText();
+            conteudo.setFont(texto, 10);
+            conteudo.newLineAtOffset(450, 700);
+            conteudo.showText("Nº: " + numeroNota);
+            conteudo.endText();
+
+            conteudo.moveTo(50, 690);
+            conteudo.lineTo(550, 690);
+            conteudo.stroke();
+
+            conteudo.beginText();
+            conteudo.setFont(titulo, 12);
+            conteudo.newLineAtOffset(50, 660);
+            conteudo.showText("Produto");
+            conteudo.newLineAtOffset(200, 0);
+            conteudo.showText("Qtd");
+            conteudo.newLineAtOffset(80, 0);
+            conteudo.showText("Unitário");
+            conteudo.newLineAtOffset(100, 0);
+            conteudo.showText("Total");
+            conteudo.endText();
+
+            conteudo.moveTo(50, 650);
+            conteudo.lineTo(550, 650);
+            conteudo.stroke();
+
+            conteudo.beginText();
+            conteudo.setFont(texto, 12);
+            conteudo.newLineAtOffset(50, 620);
+            conteudo.showText(nomeProduto.toUpperCase());
+            conteudo.newLineAtOffset(200, 0);
+            conteudo.showText(String.valueOf(quantidade));
+            conteudo.newLineAtOffset(80, 0);
+            conteudo.showText(nf.format(valorUnitario));
+            conteudo.newLineAtOffset(100, 0);
+            conteudo.showText(nf.format(valorTotal));
+            conteudo.endText();
+
+            conteudo.moveTo(50, 580);
+            conteudo.lineTo(550, 580);
+            conteudo.stroke();
+
+            conteudo.beginText();
+            conteudo.setFont(titulo, 14);
+            conteudo.newLineAtOffset(350, 550);
+            conteudo.showText("TOTAL: " + nf.format(valorTotal));
+            conteudo.endText();
+
+            conteudo.beginText();
+            conteudo.setFont(texto, 12);
+            conteudo.newLineAtOffset(170, 500);
+            conteudo.showText("Obrigado pela preferência!");
             conteudo.endText();
 
             conteudo.close();
