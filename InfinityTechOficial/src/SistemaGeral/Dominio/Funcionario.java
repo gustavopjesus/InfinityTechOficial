@@ -7,7 +7,7 @@ public class Funcionario {
 
 
     public void listProdutos(ArrayList<Produto> lista) {
-        System.out.println("\nLista de produtos:");
+        System.out.println("\nLista de produtos:\n");
 
         for (Produto produto : lista) {
             System.out.println("-----------------");
