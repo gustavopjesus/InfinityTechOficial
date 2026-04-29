@@ -11,6 +11,43 @@ public class StartNow {
 
         Scanner leia = new Scanner(System.in);
         ArrayList<Produto> lista = new ArrayList<>();
+
+        Produto p1 = new Produto();
+        p1.setNome("Teclado");
+        p1.setId(1);
+        p1.setValor(150.00);
+        p1.setQuantidade(10);
+        lista.add(p1);
+
+        Produto p2 = new Produto();
+        p2.setNome("Mouse");
+        p2.setId(2);
+        p2.setValor(80.00);
+        p2.setQuantidade(5);
+        lista.add(p2);
+
+        Produto p3 = new Produto();
+        p3.setNome("Monitor");
+        p3.setId(3);
+        p3.setValor(1200.00);
+        p3.setQuantidade(3);
+        lista.add(p3);
+
+        Produto p4 = new Produto();
+        p4.setNome("Headset");
+        p4.setId(4);
+        p4.setValor(250.00);
+        p4.setQuantidade(7);
+        lista.add(p4);
+
+        Produto p5 = new Produto();
+        p5.setNome("Webcam");
+        p5.setId(5);
+        p5.setValor(320.00);
+        p5.setQuantidade(4);
+        lista.add(p5);
+
+
         ArrayList<Venda> venda = new ArrayList<>();
         ArrayList<Venda> relatorioVendas = new ArrayList<>();
 
