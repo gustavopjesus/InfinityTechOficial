@@ -12,8 +12,8 @@ public class StartNow {
         Scanner leia = new Scanner(System.in);
         ArrayList<Produto> lista = new ArrayList<>();
 
-            Produto produtoCadastrado = new Produto();
-            produtoCadastrado.produtoCadastrado(lista);
+        Produto produtoCadastrado = new Produto();
+        produtoCadastrado.produtoCadastrado(lista);
 
         ArrayList<Venda> venda = new ArrayList<>();
         ArrayList<Venda> relatorioVendas = new ArrayList<>();
@@ -79,7 +79,7 @@ public class StartNow {
                                 break;
                             case 3:
                                 Venda vendaProduto = new Venda();
-                                vendaProduto.vendaProduto(lista,relatorioVendas);
+                                vendaProduto.vendaProduto(lista, relatorioVendas);
                                 break;
                             case 4:
                                 continuar = false;
@@ -95,13 +95,13 @@ public class StartNow {
                     boolean passoug = true;
 
                     while (passoug) {
-                    Credenciais credenciais = new Credenciais("admin", "admin");
-                    System.out.print("\nLogin: ");
-                    // credenciais.setLogin(leia.nextLine());
-                    String Logindigitado = leia.nextLine();
-                    System.out.print("Senha: ");
-                    //  credenciais.setSenha(leia.nextLine());
-                    String Senhadigitado = leia.nextLine();
+                        Credenciais credenciais = new Credenciais("admin", "admin");
+                        System.out.print("\nLogin: ");
+                        // credenciais.setLogin(leia.nextLine());
+                        String Logindigitado = leia.nextLine();
+                        System.out.print("Senha: ");
+                        //  credenciais.setSenha(leia.nextLine());
+                        String Senhadigitado = leia.nextLine();
 
                         if (Logindigitado.equals(credenciais.getLogin()) && Senhadigitado.equals(credenciais.getSenha())) {
                             System.out.println("\n Acesso permitido");

@@ -22,6 +22,7 @@ public class Relatorio {
 
         System.out.println("-----------------------------");
     }
+
     public void imprimeRelatorioProdutos(ArrayList<Produto> lista) {
         if (lista.isEmpty()) {
             System.out.println("\nNenhum produto cadastrado.");

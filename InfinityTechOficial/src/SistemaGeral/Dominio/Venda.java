@@ -15,7 +15,7 @@ public class Venda {
 
     //ArrayList<Venda> venda,
     //venda,
-    public void vendaProduto(ArrayList<Produto> lista,  ArrayList<Venda> relatorioVendas) {
+    public void vendaProduto(ArrayList<Produto> lista, ArrayList<Venda> relatorioVendas) {
         Scanner leia = new Scanner(System.in);
 
         System.out.println("\nRealizar venda");
@@ -125,7 +125,7 @@ public class Venda {
                         double valor = leia.nextDouble();
 
                         if (valor < valorAtual) {
-                            System.out.printf("\nValor insuficiente está faltando R$%.2f",  (valorAtual - valor));
+                            System.out.printf("\nValor insuficiente está faltando R$%.2fn", (valorAtual - valor));
 
                         } else {
                             if (valor > valorAtual) {
@@ -162,10 +162,10 @@ public class Venda {
                                     if (parcela <= 10) {
                                         for (int i = 1; i <= parcela; i++) {
                                             double parcelado = valorAtual / parcela;
-                                            System.out.printf("Parcela %d Valor R$%.2f\n", i, parcelado);
+                                            System.out.printf("Parcela %d Valor R$%.2f", i, parcelado);
                                         }
-                                        System.out.printf("Valor total R$%.2f",valorAtual);
-                                    }else{
+                                        System.out.printf("Valor total R$%.2f", valorAtual);
+                                    } else {
                                         System.out.println("\nMaximo 10x");
                                         continue;
                                     }

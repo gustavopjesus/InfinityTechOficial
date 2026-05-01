@@ -10,13 +10,14 @@ public class Produto {
     private double valor;
     private int quantidade;
 
-    public void imprimeProduto(){
+    public void imprimeProduto() {
         System.out.println("Nome:" + this.nome);
         System.out.println("ID:" + this.id);
 //        System.out.println("Categoria: " + this.categoria);
-        System.out.printf("Valor: R$%.2f " , this.valor);
+        System.out.printf("Valor: R$%.2f ", this.valor);
         System.out.println("\nQuantidade: " + this.quantidade);
     }
+
     public void cadastrarPoduto(ArrayList<Produto> lista, Scanner leia) {
         Produto produtos = new Produto();
 
@@ -50,7 +51,7 @@ public class Produto {
         System.out.println("\nProduto cadastrado com sucesso\n");
     }
 
-    public void produtoCadastrado(ArrayList<Produto> lista){
+    public void produtoCadastrado(ArrayList<Produto> lista) {
 
         Produto p1 = new Produto();
         p1.setNome("Teclado");
@@ -90,7 +91,6 @@ public class Produto {
     }
 
 
-
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -123,11 +123,11 @@ public class Produto {
 //        return categoria;
 //    }
 
-    public double getValor(){
+    public double getValor() {
         return valor;
     }
 
-    public int getQuantidade(){
+    public int getQuantidade() {
         return quantidade;
     }
 }
