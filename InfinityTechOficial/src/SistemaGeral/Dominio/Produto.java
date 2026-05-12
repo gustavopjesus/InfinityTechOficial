@@ -22,10 +22,8 @@ public class Produto {
         Produto produtos = new Produto();
 
         System.out.println("\nCADASTRO DE PRODUTO\n");
-
         System.out.print("Digite o nome do produto: ");
         produtos.setNome(leia.nextLine());
-
 
         int maiorId = 0;
         for (Produto p : lista) {

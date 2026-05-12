@@ -15,7 +15,7 @@ public class Venda {
 
     //ArrayList<Venda> venda,
     //venda,
-    public void vendaProduto(ArrayList<Produto> lista, ArrayList<Venda> relatorioVendas) {
+    public void vendaProduto(ArrayList<Produto> lista, ArrayList<Venda> relatorioVendas,ArrayList<Cliente> pessoas ) {
         Scanner leia = new Scanner(System.in);
 
         System.out.println("\nRealizar venda");
@@ -27,9 +27,9 @@ public class Venda {
             Produto produtoEncontrado = null;
 
             System.out.println("\nBuscar produto: ");
-            System.out.println("\n01 - Nome");
-            System.out.println("02 - ID");
-            System.out.println("03 - Voltar\n");
+            System.out.println("\nDigite 01 - Nome");
+            System.out.println("Digite 02 - ID");
+            System.out.println("Digite 03 - Voltar\n");
 
             System.out.print("Digite opção: ");
             int buscaProduto = leia.nextInt();
@@ -58,7 +58,7 @@ public class Venda {
             } else if (buscaProduto == 3) {
                 break;
             } else {
-                System.out.println("Opção inválida");
+                System.out.println("\nOpção inválida");
                 continue;
             }
 
@@ -71,9 +71,9 @@ public class Venda {
 
                 while (true) {
 
-                    System.out.println("\n1 - Escolher quantidade");
-                    System.out.println("2 - Cancelar venda");
-                    System.out.print("Escolha: ");
+                    System.out.println("\nDigite 01 - Escolher quantidade");
+                    System.out.println("Digite 02 - Cancelar venda");
+                    System.out.print("\nEscolha: ");
 
                     int op = leia.nextInt();
 
@@ -112,16 +112,16 @@ public class Venda {
                 while (!pagamentoAprovado) {
 
                     System.out.println("\nForma de pagamento:\n");
-                    System.out.println("1 - Dinheiro");
-                    System.out.println("2 - Cartão");
-                    System.out.println("3 - Pix");
-                    System.out.println("4 - Cancelar\n");
+                    System.out.println("Digite 01 - Dinheiro");
+                    System.out.println("Digite 02 - Cartão");
+                    System.out.println("Digite 03 - Pix");
+                    System.out.println("Digite 04 - Cancelar\n");
 
                     System.out.print("Escola a opção: ");
                     int pagamento = leia.nextInt();
 
                     if (pagamento == 1) {
-                        System.out.print("Valor recebido: R$%.2f");
+                        System.out.print("Digite O Valor recebido R$");
                         double valor = leia.nextDouble();
 
                         if (valor < valorAtual) {
@@ -129,7 +129,7 @@ public class Venda {
 
                         } else {
                             if (valor > valorAtual) {
-                                System.out.printf("Troco: R$%.2fn", (valor - valorAtual));
+                                System.out.print("Troco: R$" + (valor - valorAtual));
                             }
                             pagamentoAprovado = true;
                         }
@@ -139,8 +139,8 @@ public class Venda {
                         int opcao;
 
                         while (true) {
-                            System.out.println("1 - Débito\n2 - Crédito");
-                            System.out.print("\nEscola a opção: ");
+                            System.out.println("Digite 01 - Débito\nDigite 02 - Crédito");
+                            System.out.print("\nEscola a opção:");
                             opcao = leia.nextInt();
                             if (opcao == 1 || opcao == 2)
                                 break;
@@ -148,9 +148,9 @@ public class Venda {
                         while (true) {
                             if (valorAtual >= 100) {
                                 System.out.println("\nDeseja parcela?");
-                                System.out.println("\n01 - Sim");
-                                System.out.println("02 - Não");
-                                System.out.println("03 - Cancelar");
+                                System.out.println("\nDigite 01 - Sim");
+                                System.out.println("Digite 02 - Não");
+                                System.out.println("Digite 03 - Cancelar");
 
                                 System.out.print("\nEscola a opção: ");
                                 int opcao05 = 0;
@@ -171,7 +171,7 @@ public class Venda {
                                     }
                                 }
                             }
-                            System.out.println("\nCompra aprovada? 1-Sim 2-Não");
+                            System.out.println("\nCompra aprovada? Digite 01-Sim | Digite 02-Não");
                             System.out.print("\nEscola a opção: ");
                             opcao = leia.nextInt();
 
@@ -204,7 +204,7 @@ public class Venda {
                         System.out.println("Leia o QRCODE");
 
                         while (true) {
-                            System.out.println("Compra aprovada? 1-Sim 2-Não");
+                            System.out.println("\nCompra aprovada? Digite 01-Sim | Digite 02-Não");
                             int opcao = leia.nextInt();
 
                             if (opcao == 1) {
@@ -244,7 +244,6 @@ public class Venda {
             } else {
                 System.out.println("Produto não encontrado");
             }
-
         }
     }
 
@@ -263,7 +262,6 @@ public class Venda {
     public void setValorDoDoProdutoVendido(double valorDoDoProdutoVendido) {
         this.valorDoDoProdutoVendido = valorDoDoProdutoVendido;
     }
-
     public int getQuantidadeProdutoVendido() {
         return quantidadeProdutoVendido;
     }

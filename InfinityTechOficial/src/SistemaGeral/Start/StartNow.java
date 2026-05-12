@@ -1,7 +1,5 @@
 package SistemaGeral.Start;
-
 import SistemaGeral.Dominio.*;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,6 +15,8 @@ public class StartNow {
 
         ArrayList<Venda> venda = new ArrayList<>();
         ArrayList<Venda> relatorioVendas = new ArrayList<>();
+
+        ArrayList<Cliente> pessoas = new ArrayList<>();
 
 
         int escolha;
@@ -79,7 +79,7 @@ public class StartNow {
                                 break;
                             case 3:
                                 Venda vendaProduto = new Venda();
-                                vendaProduto.vendaProduto(lista, relatorioVendas);
+                                vendaProduto.vendaProduto(lista, relatorioVendas, pessoas);
                                 break;
                             case 4:
                                 continuar = false;
@@ -110,8 +110,6 @@ public class StartNow {
                             System.out.println("\nLogin/senha inválido Tente novamente ");
                         }
                     }
-
-
                     boolean contin = true;
                     while (contin) {
                         System.out.println("\n1 - Cadastrar produto ");
@@ -120,7 +118,6 @@ public class StartNow {
                         System.out.println("4 - Relátorio vendas");
                         System.out.println("5 - Relátorio de produtos");
                         System.out.println("6 - Voltar");
-
 
                         int escolha01;
                         System.out.print("\nDigite a opção: ");
@@ -151,8 +148,8 @@ public class StartNow {
                                 break;
 
                             case 6:
-                                contin = false;
                                 System.out.println("Voltar");
+                                contin = false;
                                 break;
                             default:
                                 System.out.println("Opção inválida!");
