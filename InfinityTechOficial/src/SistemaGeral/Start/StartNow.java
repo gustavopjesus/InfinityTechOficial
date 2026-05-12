@@ -16,7 +16,7 @@ public class StartNow {
         ArrayList<Venda> venda = new ArrayList<>();
         ArrayList<Venda> relatorioVendas = new ArrayList<>();
 
-        ArrayList<Cliente> pessoas = new ArrayList<>();
+        ArrayList<Cliente> clientes = new ArrayList<>();
 
 
         int escolha;
@@ -79,7 +79,7 @@ public class StartNow {
                                 break;
                             case 3:
                                 Venda vendaProduto = new Venda();
-                                vendaProduto.vendaProduto(lista, relatorioVendas, pessoas);
+                                vendaProduto.vendaProduto(lista, relatorioVendas, clientes);
                                 break;
                             case 4:
                                 continuar = false;

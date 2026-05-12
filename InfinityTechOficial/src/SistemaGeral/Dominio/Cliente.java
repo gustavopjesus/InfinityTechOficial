@@ -9,21 +9,53 @@ public class Cliente {
     private String telefone;
     private String email;
 
+    public Cliente(ArrayList<Cliente> clientes) {
+        this.nome = "Gustavo";
+        this.cpf = "48117281813";
+        this.telefone = "11912578787";
+        this.email = "gustavopaulodejesus797@gmail.com";
 
+//        String [] preCadastro = new String[4];
+//        preCadastro[0] = "Gustavo";
+//        preCadastro[1] = "481172818136";
+//        preCadastro[2] = "11912578787";
+//        preCadastro[3] = "gustavopaulodejesus797@gmail.com";
 
-    public void cadastrarCliente(Scanner leia, ArrayList<Cliente> pessoas){
-        System.out.println("Cadastrando Cliente");
+        clientes.add(this);
+    }
 
-        System.out.print("Digite o nome do cliente: ");
+    public void cadastrarCliente(Scanner leia, ArrayList<Cliente> clientes){
+        System.out.println("-----------------------------");
+        System.out.println("    Cadastro de cliente");
+        System.out.println("-----------------------------");
+
+        System.out.print("\nDigite o nome do cliente: ");
         nome = leia.nextLine();
-        System.out.print("Digite o CPF do cliente: ");
-        cpf = leia.nextLine();
-        System.out.print("Digite o telefone do cliente: ");
-        telefone = leia.nextLine();
-        System.out.print("Digite o email do cliente: ");
-        email = leia.nextLine();
 
-        pessoas.add(this);
+        boolean cpfContinua = true;
+
+        while (cpfContinua) {
+            System.out.print("Digite o CPF do cliente: ");
+            cpf = leia.nextLine();
+            if (cpf.length() < 11) {
+                System.out.println("CPF invalido");
+            } else if (cpf.length() > 11) {
+                System.out.println("CPF invalido");
+            } else if(getCpf().equals(cpf)) {
+                System.out.println("\nCPF já cadastrado!");
+                break;
+            }else{
+                System.out.print("Digite o telefone do cliente: ");
+                telefone = leia.nextLine();
+                System.out.print("Digite o email do cliente: ");
+                email = leia.nextLine();
+
+                clientes.add(this);
+
+                System.out.println("\nCliente cadastrado com sucesso!");
+                cpfContinua = false;
+            }
+        }
     }
 
     public void imprimeCliente(){

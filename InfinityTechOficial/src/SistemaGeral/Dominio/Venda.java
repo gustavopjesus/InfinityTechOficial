@@ -1,5 +1,6 @@
 package SistemaGeral.Dominio;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JFrame;
@@ -13,11 +14,38 @@ public class Venda {
     private double valorDoDoProdutoVendido;
     private int quantidadeProdutoVendido;
 
-    //ArrayList<Venda> venda,
-    //venda,
-    public void vendaProduto(ArrayList<Produto> lista, ArrayList<Venda> relatorioVendas,ArrayList<Cliente> pessoas ) {
+
+    public void vendaProduto(ArrayList<Produto> lista, ArrayList<Venda> relatorioVendas, ArrayList<Cliente> clientes) {
         Scanner leia = new Scanner(System.in);
 
+        Cliente cliente = new Cliente(clientes);
+
+        boolean cpfContinua = true;
+
+        while (cpfContinua) {
+            System.out.print("\nDigite o CPF do cliente: ");
+            String cpfCliente = leia.nextLine();
+
+            if (cpfCliente.length() != 11) {
+                System.out.println("CPF invalido");
+            } else {
+                boolean cpfEncontrado = false;
+
+                for (Cliente cli : clientes) {
+                    if (cli.getCpf().equals(cpfCliente)) {
+                        cpfEncontrado = true;
+                        System.out.println("Cliente encontrado!\n");
+
+                        System.out.println("Cliente:" + cli.getNome() + "\nCPF:" + cli.getCpf());
+                    }
+                }
+                if (!cpfEncontrado) {
+                    System.out.println("\nCliente não cadastrado!\n");
+                    cliente.cadastrarCliente(leia, clientes);
+                }
+                cpfContinua = false;
+            }
+        }
         System.out.println("\nRealizar venda");
 
         boolean control = true;
@@ -121,7 +149,7 @@ public class Venda {
                     int pagamento = leia.nextInt();
 
                     if (pagamento == 1) {
-                        System.out.print("Digite O Valor recebido R$");
+                        System.out.print("\nDigite o valor recebido R$");
                         double valor = leia.nextDouble();
 
                         if (valor < valorAtual) {
@@ -129,7 +157,7 @@ public class Venda {
 
                         } else {
                             if (valor > valorAtual) {
-                                System.out.print("Troco: R$" + (valor - valorAtual));
+                                System.out.print("\nTroco R$" + (valor - valorAtual));
                             }
                             pagamentoAprovado = true;
                         }
@@ -262,6 +290,7 @@ public class Venda {
     public void setValorDoDoProdutoVendido(double valorDoDoProdutoVendido) {
         this.valorDoDoProdutoVendido = valorDoDoProdutoVendido;
     }
+
     public int getQuantidadeProdutoVendido() {
         return quantidadeProdutoVendido;
     }
