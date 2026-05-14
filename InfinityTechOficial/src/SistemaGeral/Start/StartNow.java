@@ -1,5 +1,6 @@
 package SistemaGeral.Start;
 import SistemaGeral.Dominio.*;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,6 +17,25 @@ public class StartNow {
         ArrayList<Venda> relatorioVendas = new ArrayList<>();
 
         ArrayList<Cliente> clientes = new ArrayList<>();
+
+        ArrayList<String> relatorioHistorico = new ArrayList<>();
+        try {
+            java.io.BufferedReader reader =
+                    new java.io.BufferedReader(
+                            new java.io.FileReader("historico.txt")
+                    );
+
+            String linha;
+
+            while ((linha = reader.readLine()) != null) {
+                relatorioHistorico.add(linha);
+            }
+
+            reader.close();
+
+        } catch (java.io.IOException e) {
+            System.out.println("Nenhum histórico encontrado.");
+        }
 
         int escolha;
         int quemEvoce;
@@ -82,11 +102,11 @@ public class StartNow {
                             switch (escolha) {
                                case 1:
                                     Produto produto = new Produto();
-                                    produto.cadastrarPoduto(lista, leia);
+                                    produto.cadastrarPoduto(lista, leia, relatorioHistorico);
                                     break;
                                 case 2:
-                                    Funcionario listProdutos = new Funcionario();
-                                    listProdutos.listProdutos(lista);
+                                    Relatorio relatorioProdutos = new Relatorio();
+                                    relatorioProdutos.imprimeRelatorioProdutos(lista, relatorioHistorico);
                                     break;
                                 case 3:
                                     Venda vendaProduto = new Venda();
@@ -147,7 +167,7 @@ public class StartNow {
                                 case 1:
                                     Produto produto = new Produto();
                                     leia.nextLine();
-                                    produto.cadastrarPoduto(lista, leia);
+                                    produto.cadastrarPoduto(lista, leia, relatorioHistorico);
                                     break;
                                 case 2:
                                     leia.nextLine();
@@ -163,7 +183,7 @@ public class StartNow {
                                     break;
                                 case 5:
                                     Relatorio relatorioProdutos = new Relatorio();
-                                    relatorioProdutos.imprimeRelatorioProdutos(lista);
+                                    relatorioProdutos.imprimeRelatorioProdutos(lista, relatorioHistorico);
                                     break;
 
                                 case 6:

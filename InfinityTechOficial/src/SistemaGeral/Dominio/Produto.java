@@ -17,7 +17,7 @@ public class Produto {
         System.out.println("\nQuantidade: " + this.quantidade);
         System.out.println("================================");
     }
-    public void cadastrarPoduto(ArrayList<Produto> lista, Scanner leia) {
+    public void cadastrarPoduto(ArrayList<Produto> lista, Scanner leia,  ArrayList<String> relatorioHistorico) {
         Produto produtos = new Produto();
 
         System.out.println("\nCADASTRO DE PRODUTO\n");
@@ -41,6 +41,14 @@ public class Produto {
         leia.nextLine();
 
         lista.add(produtos);
+
+        Historico.salvar(
+                "      | Nome: " + produtos.getNome()
+                        + " | ID: " + produtos.getId()
+                        + " | Valor: R$" + produtos.getValor()
+                        + " | Quantidade: " + produtos.getQuantidade()
+        );
+
         System.out.println("\nProduto cadastrado com sucesso\n");
     }
 
