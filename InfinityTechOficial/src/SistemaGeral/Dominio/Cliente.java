@@ -8,6 +8,7 @@ public class Cliente {
     private String cpf;
     private String telefone;
     private String email;
+    private Cliente cliente;
 
     public Cliente(ArrayList<Cliente> clientes) {
         this.nome = "Gustavo";
@@ -32,41 +33,77 @@ public class Cliente {
         System.out.print("\nDigite o nome do cliente: ");
         nome = leia.nextLine();
 
+
         boolean cpfContinua = true;
 
         while (cpfContinua) {
             System.out.print("Digite o CPF do cliente: ");
             cpf = leia.nextLine();
-            if (cpf.length() < 11) {
-                System.out.println("CPF invalido");
-            } else if (cpf.length() > 11) {
-                System.out.println("CPF invalido");
-            } else if(getCpf().equals(cpf)) {
-                System.out.println("\nCPF já cadastrado!");
+
+            cpf = cpf.replaceAll("[^0-9]", "");
+
+            if (cpf.length() != 11){
+                System.out.println("CPF inválido");
+                continue;
+            }
+
+            if (cpf.matches("(\\d)\\1{10}")) {
+                System.out.println("CPF inválido");
+                continue;
+            }
+             int soma = 0;
+
+        for (int i = 0; i<9; i++){
+            soma+= (cpf.charAt(i) - '0') * (10 - i);
+        }
+        int primeirodig = 11 - (soma % 11);
+
+        if (primeirodig>=10){
+            primeirodig = 0;
+        }
+        if (primeirodig !=(cpf.charAt(9) - '0')){
+            System.out.println("CPF inválido");
+            continue;
+        }
+        soma = 0;
+
+        for (int i = 0; i<10; i++){
+            soma += (cpf.charAt(i) - '0') * (11-i);
+        }
+        int segundodig = 11 - (soma % 11);
+
+        if (segundodig>=10){
+            segundodig = 0;
+        }
+        if (segundodig != (cpf.charAt(10) - '0')) {
+            System.out.println("CPF inválido");
+            continue;
+        }
+        boolean cpfEncontrado = false;
+
+        for (Cliente cli: clientes){
+            if (cli.getCpf().equals(cpf)){
+                cpfEncontrado = true;
+                System.out.println("Cliente encontrado!");
+                System.out.println("Cliente: " + cli.getNome() + "\nCPF: " + cli.getCpf());
                 break;
-            }else{
-                System.out.print("Digite o telefone do cliente: ");
-                telefone = leia.nextLine();
-                System.out.print("Digite o email do cliente: ");
-                email = leia.nextLine();
-
-                clientes.add(this);
-
-                System.out.println("\nCliente cadastrado com sucesso!");
-                cpfContinua = false;
             }
         }
-    }
-
+            if (!cpfEncontrado){
+                System.out.println("Cliente não cadastrado!");
+                cliente.cadastrarCliente(leia, clientes);
+            }
+        cpfContinua = false;
+}
+}
     public void imprimeCliente(){
         System.out.println("Nome: "+this.nome);
         System.out.println("CPF: "+this.cpf);
         System.out.println("Telefone: "+this.telefone);
         System.out.println("Email: "+this.email);
     }
-
-    public void listaClinte(ArrayList<Cliente> pessoas){
-        for(Cliente c : pessoas){
+    public void listaClinte(ArrayList<Cliente> clientes){
+        for(Cliente c : clientes){
             System.out.println("=============================");
             System.out.println("Nome: "+c.getNome());
             System.out.println("CPF: "+c.getCpf());
@@ -75,7 +112,6 @@ public class Cliente {
             System.out.println("=============================");
         }
     }
-
     public String getNome() {
         return nome;
     }

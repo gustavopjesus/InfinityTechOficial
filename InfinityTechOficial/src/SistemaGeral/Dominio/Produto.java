@@ -6,18 +6,17 @@ import java.util.Scanner;
 public class Produto {
     private String nome;
     private int id;
-    //    private String categoria;
     private double valor;
     private int quantidade;
 
     public void imprimeProduto() {
+        System.out.println("================================");
         System.out.println("Nome:" + this.nome);
         System.out.println("ID:" + this.id);
-//        System.out.println("Categoria: " + this.categoria);
         System.out.printf("Valor: R$%.2f ", this.valor);
         System.out.println("\nQuantidade: " + this.quantidade);
+        System.out.println("================================");
     }
-
     public void cadastrarPoduto(ArrayList<Produto> lista, Scanner leia) {
         Produto produtos = new Produto();
 
@@ -33,9 +32,6 @@ public class Produto {
         }
         produtos.setId(maiorId + 1);
 
-//        System.out.print("Digite a categoria do produto: ");
-//        produtos.setCategoria(leia.nextLine());
-
         System.out.print("Digite o valor: ");
         produtos.setValor(leia.nextDouble());
         leia.nextLine();
@@ -45,7 +41,6 @@ public class Produto {
         leia.nextLine();
 
         lista.add(produtos);
-
         System.out.println("\nProduto cadastrado com sucesso\n");
     }
 
@@ -85,9 +80,7 @@ public class Produto {
         p5.setValor(320.00);
         p5.setQuantidade(4);
         lista.add(p5);
-
     }
-
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -96,10 +89,6 @@ public class Produto {
     public void setId(int id) {
         this.id = id;
     }
-
-//    public void setCategoria(String categoria) {
-//        this.categoria = categoria;
-//    }
 
     public void setValor(double valor) {
         this.valor = valor;
@@ -116,10 +105,6 @@ public class Produto {
     public int getId() {
         return id;
     }
-
-//    public String getCategoria(){
-//        return categoria;
-//    }
 
     public double getValor() {
         return valor;
