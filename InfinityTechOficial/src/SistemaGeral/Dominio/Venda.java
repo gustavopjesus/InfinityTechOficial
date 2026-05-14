@@ -18,6 +18,13 @@ public class Venda {
     public void vendaProduto(ArrayList<Produto> lista, ArrayList<Venda> relatorioVendas, ArrayList<Cliente> clientes) {
         Scanner leia = new Scanner(System.in);
 
+        System.out.println("\nDeseja CPF na nota? \n01-Sim \n02-Não");
+        System.out.print("\nDigite à opção: ");
+        String opcnota = leia.nextLine();
+        String cpfNota = "Não informado";
+
+        if (opcnota.equals("Sim") || (opcnota.equals("01") || (opcnota.equals("1")))){
+
         Cliente cliente = new Cliente(clientes);
 
         boolean cpfContinua = true;
@@ -34,19 +41,29 @@ public class Venda {
                 for (Cliente cli : clientes) {
                     if (cli.getCpf().equals(cpfCliente)) {
                         cpfEncontrado = true;
-                        System.out.println("Cliente encontrado!\n");
 
+                        System.out.println("Cliente encontrado!\n");
                         System.out.println("Cliente:" + cli.getNome() + "\nCPF:" + cli.getCpf());
+                        cpfNota = cli.getCpf();
+                        break;
                     }
                 }
                 if (!cpfEncontrado) {
                     System.out.println("\nCliente não cadastrado!\n");
                     cliente.cadastrarCliente(leia, clientes);
+                    cpfNota = cliente.getCpf();
                 }
                 cpfContinua = false;
+
             }
         }
+    }else{
+            System.out.println(" ");
+        }
         System.out.println("\nRealizar venda");
+
+
+
 
         boolean control = true;
         while (control) {
@@ -149,7 +166,7 @@ public class Venda {
                     int pagamento = leia.nextInt();
 
                     if (pagamento == 1) {
-                        System.out.print("\nDigite o valor recebido R$");
+                        System.out.print("\nDigite o valor recebido R$ " );
                         double valor = leia.nextDouble();
 
                         if (valor < valorAtual) {
@@ -190,16 +207,16 @@ public class Venda {
                                     if (parcela <= 10) {
                                         for (int i = 1; i <= parcela; i++) {
                                             double parcelado = valorAtual / parcela;
-                                            System.out.printf("Parcela %d Valor R$%.2f", i, parcelado);
+                                            System.out.printf("Parcela %d Valor R$%.2f\n", i, parcelado);
                                         }
-                                        System.out.printf("Valor total R$%.2f", valorAtual);
+                                        System.out.printf("\nValor total R$%.2f\n", valorAtual);
                                     } else {
                                         System.out.println("\nMaximo 10x");
                                         continue;
                                     }
                                 }
                             }
-                            System.out.println("\nCompra aprovada? Digite 01-Sim | Digite 02-Não");
+                            System.out.println("\nCompra aprovada? \nDigite 01-Sim  \nDigite 02-Não");
                             System.out.print("\nEscola a opção: ");
                             opcao = leia.nextInt();
 
@@ -232,7 +249,7 @@ public class Venda {
                         System.out.println("Leia o QRCODE");
 
                         while (true) {
-                            System.out.println("\nCompra aprovada? Digite 01-Sim | Digite 02-Não");
+                            System.out.println("\nCompra aprovada? \nDigite 01-Sim \nDigite 02-Não");
                             int opcao = leia.nextInt();
 
                             if (opcao == 1) {
@@ -256,7 +273,7 @@ public class Venda {
 
                 produtoEncontrado.setQuantidade(produtoEncontrado.getQuantidade() - quantidade);
 
-                System.out.println("Venda finalizada!");
+                System.out.println("\nVenda finalizada!");
 
                 Venda relatorio = new Venda();
                 relatorio.setNomeProdutoVendido(produtoEncontrado.getNome());
@@ -264,8 +281,10 @@ public class Venda {
                 relatorio.setValorDoDoProdutoVendido(valorAtual);
 
                 relatorioVendas.add(relatorio);
+
+
                 Notafiscal nota = new Notafiscal();
-                nota.gerarNota(produtoEncontrado.getNome(), quantidade, valorAtual);
+                nota.gerarNota(produtoEncontrado.getNome(), quantidade, valorAtual, cpfNota);
 
                 control = false;
 

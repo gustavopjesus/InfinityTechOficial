@@ -16,7 +16,7 @@ import java.util.Locale;
 
 public class Notafiscal {
 
-    public void gerarNota(String nomeProduto, int quantidade, double valorTotal) {
+    public void gerarNota(String nomeProduto, int quantidade, double valorTotal, String cpfNota) {
 
         try {
             PDDocument documento = new PDDocument();
@@ -32,6 +32,16 @@ public class Notafiscal {
             DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
             NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+            cpfNota = cpfNota.replaceAll("[^0-9]", "");
+
+            if (cpfNota.length() == 11) {
+                cpfNota = cpfNota.substring(0, 3) + "." +
+                        cpfNota.substring(3, 6) + "." +
+                        cpfNota.substring(6, 9) + "-" +
+                        cpfNota.substring(9, 11);
+            }
+
 
             double valorUnitario = valorTotal / quantidade;
             int numeroNota = (int) (Math.random() * 10000);
@@ -52,6 +62,12 @@ public class Notafiscal {
             conteudo.setFont(texto, 10);
             conteudo.newLineAtOffset(50, 700);
             conteudo.showText("Data/Hora: " + agora.format(formato));
+            conteudo.endText();
+
+            conteudo.beginText();
+            conteudo.setFont(texto, 10);
+            conteudo.newLineAtOffset(200, 700);
+            conteudo.showText("CPF do Cliente: " + cpfNota);
             conteudo.endText();
 
             conteudo.beginText();
