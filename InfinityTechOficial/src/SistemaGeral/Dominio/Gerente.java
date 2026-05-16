@@ -1,5 +1,4 @@
 package SistemaGeral.Dominio;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,21 +16,72 @@ public class Gerente {
                 break;
             }
         }
-        if (produtoEncontrado != null) {
+
+        if (produtoEncontrado == null) {
+            System.out.println("Produto não cadastrado");
+            return;
+        }
+        while (true) {
             System.out.print("Novo nome: ");
-            produtoEncontrado.setNome(leia.nextLine());
+            String nvnome = leia.nextLine();
+
+            boolean temn = false;
+            for (Character c : nvnome.toCharArray()) {
+                if (Character.isDigit(c)) {
+                    temn = false;
+                    break;
+                }
+            }
+            if (nvnome.length() == 0) {
+                System.out.println("Nome inválido");
+            } else if (temn) {
+                System.out.println("Nome não pode ser vázio");
+            } else {
+                produtoEncontrado.setNome(nvnome);
+                break;
+            }
+        }
+        String nvvalor;
+        while (true) {
             System.out.print("Novo valor: ");
-            produtoEncontrado.setValor(leia.nextDouble());
-            leia.nextLine();
+            nvvalor = leia.nextLine();
+            boolean teml2 = false;
+            for (char c : nvvalor.toCharArray()) {
+                if (!Character.isDigit(c)) {
+                    teml2 = true;
+                    break;
+                }
+            }
+            if (nvvalor.length() == 0 || teml2) {
+                System.out.println("Digite apenas números");
+            } else {
+                produtoEncontrado.setValor(Double.parseDouble(nvvalor));
+                break;
+            }
+        }
+
+        while (true) {
             System.out.print("Nova quantidade: ");
-            produtoEncontrado.setQuantidade(leia.nextInt());
-            leia.nextLine();
-            System.out.print("Produto alterado com sucesso!\n");
-        } else {
-            System.out.println("Produto não encotrado!");
+            String input = leia.nextLine();
+            boolean teml = false;
+            for (char c : input.toCharArray()) {
+                if (!Character.isDigit(c)) {
+                    teml = true;
+                    break;
+                }
+            }
+            if (input.length() == 0 || teml) {
+                System.out.println("Digite apenas números");
+            } else {
+                int quantidadenova = Integer.parseInt(input);
+                produtoEncontrado.setQuantidade(produtoEncontrado.getQuantidade() + quantidadenova);
+                System.out.print("Produto alterado com sucesso!\n");
+                return;
+            }
         }
 
     }
+
     public void excluirProduto(ArrayList<Produto> lista, Scanner leia) {
         boolean removido = false;
         System.out.print("Digite o ID do produto que deseja excluir: ");

@@ -6,19 +6,18 @@ import java.util.Scanner;
 
 public class StartNow {
     public static void main(String[] args) {
-
         Scanner leia = new Scanner(System.in);
-        ArrayList<Produto> lista = new ArrayList<>();
 
-        Produto produtoCadastrado = new Produto();
-        produtoCadastrado.produtoCadastrado(lista);
+        ArrayList<Produto> lista = Produto.carregarProdutos();
+        if (lista.isEmpty()) {
+            new Produto().produtoCadastrado(lista);
+        }
 
-        ArrayList<Venda> venda = new ArrayList<>();
-        ArrayList<Venda> relatorioVendas = new ArrayList<>();
+        ArrayList<Venda> relatorioVendas = Venda.carregarVendas();
 
-        ArrayList<Cliente> clientes = new ArrayList<>();
-
+        ArrayList<Cliente> clientes = Cliente.carregarClientes();
         ArrayList<String> relatorioHistorico = new ArrayList<>();
+
         try {
             java.io.BufferedReader reader =
                     new java.io.BufferedReader(
@@ -36,9 +35,18 @@ public class StartNow {
         } catch (java.io.IOException e) {
             System.out.println("Nenhum histórico encontrado.");
         }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            Cliente.salvarClientes(clientes);
+            Produto.salvarProdutos(lista);
+            Venda.salvarVendas(relatorioVendas);
+
+            System.out.println("Dados salvos automaticamente!");
+        }));
 
         int escolha;
         int quemEvoce;
+
+
 
         while (true) {
             System.out.println("----------------------------------------------------------------------------");
@@ -206,6 +214,7 @@ public class StartNow {
                 }
 
         }
+
     }
 }
 

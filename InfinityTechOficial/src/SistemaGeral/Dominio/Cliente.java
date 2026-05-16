@@ -1,11 +1,13 @@
 package SistemaGeral.Dominio;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Cliente {
+public class Cliente implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String nome;
-    private String cpf;
+    public String cpf;
     private String telefone;
     private String email;
     private Cliente cliente;
@@ -25,6 +27,34 @@ public class Cliente {
         clientes.add(this);
     }
 
+    public static void salvarClientes(ArrayList<Cliente> clientes) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream("clientes.dat"))) {
+            oos.writeObject(clientes);
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar clientes: " + e.getMessage());
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Cliente> carregarClientes() {
+        File arquivo = new File("clientes.dat");
+        if (!arquivo.exists()) {
+            System.out.println("Nenhum cliente cadastrado anteriormente.");
+            return new ArrayList<>();
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream("clientes.dat"))) {
+            ArrayList<Cliente> clientes = (ArrayList<Cliente>) ois.readObject();
+            System.out.println(clientes.size() + " cliente(s) carregado(s).");
+            return clientes;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar clientes: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+
     public void cadastrarCliente(Scanner leia, ArrayList<Cliente> clientes){
         System.out.println("-----------------------------");
         System.out.println("    Cadastro de cliente");
@@ -33,6 +63,8 @@ public class Cliente {
         System.out.print("\nDigite o nome do cliente: ");
         nome = leia.nextLine();
 
+        System.out.print("\nDigite o telefone: ");
+        telefone = leia.nextLine();
 
         boolean cpfContinua = true;
 
@@ -81,10 +113,13 @@ public class Cliente {
         }
         boolean cpfEncontrado = false;
 
+            System.out.print("Digite o email: ");
+            email = leia.nextLine();
+
         for (Cliente cli: clientes){
             if (cli.getCpf().equals(cpf)){
                 cpfEncontrado = true;
-                System.out.println("Cliente encontrado!");
+                System.out.println("\nCliente Cadastrado com sucesso!");
                 System.out.println("Cliente: " + cli.getNome() + "\nCPF: " + cli.getCpf());
                 break;
             }

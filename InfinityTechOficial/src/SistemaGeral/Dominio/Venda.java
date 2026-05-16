@@ -1,5 +1,8 @@
 package SistemaGeral.Dominio;
-
+import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,11 +11,45 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
-public class Venda {
+public class Venda implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     private String nomeProdutoVendido;
     private double valorDoDoProdutoVendido;
     private int quantidadeProdutoVendido;
+    public static void SalvarVendas(ArrayList<Venda> relatorioVendas){
+        try(ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream("vendas.dat"))){
+            oos.writeObject(relatorioVendas);
+        }catch(IOException e){
+            System.out.println("Erro ao salvar vendas: " + e.getMessage());
+
+        }
+    }
+
+    public static void salvarVendas(ArrayList<Venda> relatorioVendas) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream("vendas.dat"))) {
+            oos.writeObject(relatorioVendas);
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar vendas: " + e.getMessage());
+        }
+    }
+
+    public static ArrayList<Venda> carregarVendas() {
+        File arquivo = new File("vendas.dat");
+        if (!arquivo.exists()) {
+            return new ArrayList<>();
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream("vendas.dat"))) {
+            return (ArrayList<Venda>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            return new ArrayList<>();
+        }
+    }
+
+
 
 
     public void vendaProduto(ArrayList<Produto> lista, ArrayList<Venda> relatorioVendas, ArrayList<Cliente> clientes) {
