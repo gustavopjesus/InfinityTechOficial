@@ -1,13 +1,39 @@
 package SistemaGeral.Dominio;
-
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Produto {
+public class Produto implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String nome;
     private int id;
     private double valor;
     private int quantidade;
+
+    public static void salvarProdutos(ArrayList<Produto> lista) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(
+                new FileOutputStream("produtos.dat"))) {
+            oos.writeObject(lista);
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar produtos: " + e.getMessage());
+        }
+    }
+    @SuppressWarnings("unchecked")
+    public static ArrayList<Produto> carregarProdutos() {
+        File arquivo = new File("produtos.dat");
+        if (!arquivo.exists()) {
+            return new ArrayList<>();
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(
+                new FileInputStream("produtos.dat"))) {
+            ArrayList<Produto> lista = (ArrayList<Produto>) ois.readObject();
+            System.out.println(lista.size() + " produto(s) carregado(s).");
+            return lista;
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar produtos: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
 
     public void imprimeProduto() {
         System.out.println("================================");
@@ -19,6 +45,7 @@ public class Produto {
     }
     public void cadastrarPoduto(ArrayList<Produto> lista, Scanner leia,  ArrayList<String> relatorioHistorico) {
         Produto produtos = new Produto();
+        boolean jaExiste = false;
 
         System.out.println("\nCADASTRO DE PRODUTO\n");
         System.out.print("Digite o nome do produto: ");
@@ -26,6 +53,10 @@ public class Produto {
 
         int maiorId = 0;
         for (Produto p : lista) {
+            if (p.getNome().equals(produtos.getNome())){
+                System.out.println("Produto já cadastrado");
+                return;
+            }
             if (p.getId() > maiorId) {
                 maiorId = p.getId();
             }
