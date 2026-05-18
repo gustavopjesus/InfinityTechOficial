@@ -50,9 +50,9 @@ public class StartNow {
 
 
         while (sistema) {
-            System.out.println("----------------------------------------------------------------------------");
-            System.out.println("                              Infinity Tech");
-            System.out.println("----------------------------------------------------------------------------");
+            System.out.println("============================================================================");
+            System.out.println("                              INFINITY TECH");
+            System.out.println("============================================================================");
             System.out.println("\n01 - Funcionário ");
             System.out.println("02 - Gerente");
             System.out.println("03 - Sair");
@@ -165,10 +165,8 @@ public class StartNow {
                     while (passoug) {
                         Credenciais credenciais = new Credenciais("admin", "admin");
                         System.out.print("\nLogin: ");
-                        // credenciais.setLogin(leia.nextLine());
                         String Logindigitado = leia.nextLine();
                         System.out.print("Senha: ");
-                        //  credenciais.setSenha(leia.nextLine());
                         String Senhadigitado = leia.nextLine();
 
                         if (Logindigitado.equals(credenciais.getLogin()) && Senhadigitado.equals(credenciais.getSenha())) {

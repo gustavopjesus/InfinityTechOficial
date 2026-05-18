@@ -16,7 +16,6 @@ public class Gerente {
                 break;
             }
         }
-
         if (produtoEncontrado == null) {
             System.out.println("Produto não cadastrado");
             return;
@@ -59,7 +58,6 @@ public class Gerente {
                 break;
             }
         }
-
         while (true) {
             System.out.print("Nova quantidade: ");
             String input = leia.nextLine();
@@ -81,7 +79,6 @@ public class Gerente {
         }
 
     }
-
     public void excluirProduto(ArrayList<Produto> lista, Scanner leia) {
         boolean removido = false;
         System.out.print("Digite o ID do produto que deseja excluir: ");

@@ -80,7 +80,7 @@ public class Produto implements Serializable{
                         + " | Quantidade: " + produtos.getQuantidade()
         );
 
-        System.out.println("\nProduto cadastrado com sucesso\n");
+        System.out.println("\nProduto cadastrado com sucesso");
     }
 
     public void produtoCadastrado(ArrayList<Produto> lista) {
