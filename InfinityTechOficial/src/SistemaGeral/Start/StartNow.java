@@ -59,14 +59,13 @@ public class StartNow {
             System.out.println("02 - Gerente");
             System.out.println("03 - Sair");
 
-
             System.out.print("\n  Digite a opção: ");
             if (leia.hasNextInt()) {
                 quemEvoce = leia.nextInt();
                 leia.nextLine();
 
             } else {
-                System.out.println("Digite apenas números");
+                System.out.println("\nDigite apenas números\n");
                 leia.nextLine();
                 continue;
             }
@@ -120,11 +119,15 @@ public class StartNow {
                     }
                     boolean continuar = true;
                     while (continuar) {
+                        System.out.println("\n╔══════════════════════════════╗");
+                        System.out.println("║        MENU FUNCIONÁRIO      ║");
+                        System.out.println("╠══════════════════════════════╣");
+                        System.out.println("║01 - Adicionar produto        ║");
+                        System.out.println("║02 - Listar produtos          ║");
+                        System.out.println("║03 - Venda                    ║");
+                        System.out.println("║04 - Voltar                   ║");
+                        System.out.println("╚══════════════════════════════╝");
 
-                        System.out.println("\n01 - Adicionar produto");
-                        System.out.println("02 - Listar produtos");
-                        System.out.println("03 - Venda");
-                        System.out.println("04 - Voltar");
                         System.out.print("\n  Digite a opção: ");
 
                         if (leia.hasNextInt()) {
@@ -210,12 +213,16 @@ public class StartNow {
                     boolean contin = true;
 
                     while (contin) {
-                        System.out.println("\n01 - Cadastrar produto ");
-                        System.out.println("02 - Alterar produto");
-                        System.out.println("03 - Excluir produtos");
-                        System.out.println("04 - Relátorio vendas");
-                        System.out.println("05 - Relátorio de produtos");
-                        System.out.println("06 - Voltar");
+                        System.out.println("\n╔══════════════════════════════╗");
+                        System.out.println("║        MENU GERENTE          ║");
+                        System.out.println("╠══════════════════════════════╣");
+                        System.out.println("║01 - Cadastrar produto        ║");
+                        System.out.println("║02 - Alterar produto          ║");
+                        System.out.println("║03 - Excluir produtos         ║");
+                        System.out.println("║04 - Relátorio vendas         ║");
+                        System.out.println("║05 - Relátorio de produtos    ║");
+                        System.out.println("║06 - Voltar                   ║");
+                        System.out.println("╚══════════════════════════════╝");
 
                         int escolha01;
 
@@ -245,7 +252,7 @@ public class StartNow {
 
                             case 4:
                                 Relatorio relatorio = new Relatorio();
-                                relatorio.imprimeRelatorio(relatorioVendas, leia);
+                                relatorio.imprimeRelatorio(relatorioVendas, leia, relatorioHistorico);
                                 break;
                             case 5:
                                 Relatorio relatorioProdutos = new Relatorio();
