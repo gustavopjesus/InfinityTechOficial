@@ -11,21 +11,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
-public class Venda implements Serializable{
+public class Venda implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String nomeProdutoVendido;
     private double valorDoDoProdutoVendido;
     private int quantidadeProdutoVendido;
-    public static void SalvarVendas(ArrayList<Venda> relatorioVendas){
-        try(ObjectOutputStream oos = new ObjectOutputStream(
-                new FileOutputStream("vendas.dat"))){
-            oos.writeObject(relatorioVendas);
-        }catch(IOException e){
-            System.out.println("Erro ao salvar vendas: " + e.getMessage());
-
-        }
-    }
 
     public static void salvarVendas(ArrayList<Venda> relatorioVendas) {
         try (ObjectOutputStream oos = new ObjectOutputStream(
@@ -51,26 +42,24 @@ public class Venda implements Serializable{
 
     public void vendaProduto(ArrayList<Produto> lista, ArrayList<Venda> relatorioVendas, ArrayList<Cliente> clientes) {
         Scanner leia = new Scanner(System.in);
-
-        System.out.println("\nDeseja CPF na nota? \n01-Sim \n02-Não");
-        System.out.print("\nDigite à opção: ");
-        String opcnota = leia.nextLine();
         String cpfNota = "Não informado";
+        boolean cpfContinua = true;
 
-        if (opcnota.equals("Sim") || (opcnota.equals("01") || (opcnota.equals("1")))){
+        while (cpfContinua) {
+            System.out.println("\nDeseja CPF na nota? \n01-Sim \n02-Não");
+            System.out.print("\nDigite à opção: ");
+            String opcnota = leia.nextLine();
 
-            Cliente cliente = new Cliente(clientes);
 
-            boolean cpfContinua = true;
+            if (opcnota.equals("01") || (opcnota.equals("1"))) {
+                Cliente cliente = new Cliente(clientes);
 
-            while (cpfContinua) {
                 System.out.print("\nDigite o CPF do cliente: ");
                 String cpfCliente = leia.nextLine();
 
                 if (cpfCliente.length() != 11) {
                     System.out.println("CPF invalido");
                 } else {
-
                     boolean cpfEncontrado = false;
                     for (Cliente cli : clientes) {
                         if (cli.getCpf().equals(cpfCliente)) {
@@ -89,258 +78,262 @@ public class Venda implements Serializable{
                     }
                     cpfContinua = false;
                 }
-            }
-        }else{
-            System.out.println(" ");
-        }
-        System.out.println("\nRealizar venda");
-
-        boolean control = true;
-        while (control) {
-
-            boolean pagamentoAprovado = false;
-            Produto produtoEncontrado = null;
-
-            System.out.println("\nBuscar produto: ");
-            System.out.println("\nDigite 01 - Nome");
-            System.out.println("Digite 02 - ID");
-            System.out.println("Digite 03 - Voltar\n");
-            System.out.print("Digite opção: ");
-            int buscaProduto = leia.nextInt();
-            leia.nextLine();
-
-            if (buscaProduto == 1) {
-                System.out.print("\nDigite o nome do produto: ");
-                String nomeBuscado = leia.nextLine();
-
-                for (Produto produto : lista) {
-                    if (produto.getNome().equals(nomeBuscado)) {
-                        produtoEncontrado = produto;
-                        break;
-                    }
-                }
-            } else if (buscaProduto == 2) {
-                System.out.print("Digite o ID do produto: ");
-                int idBuscado = leia.nextInt();
-
-                for (Produto produto : lista) {
-                    if (produto.getId() == idBuscado) {
-                        produtoEncontrado = produto;
-                        break;
-                    }
-                }
-            } else if (buscaProduto == 3) {
+                break;
+            } else if (opcnota.equals("02") || (opcnota.equals("2"))) {
                 break;
             } else {
-                System.out.println("\nOpção inválida");
-                continue;
-            }
-            if (produtoEncontrado != null) {
-
-                System.out.println("\nProduto encontrado!");
-                produtoEncontrado.imprimeProduto();
-
-                int quantidade;
-
-                while (true) {
-                    System.out.println("\nDigite 01 - Escolher quantidade");
-                    System.out.println("Digite 02 - Cancelar venda");
-                    System.out.print("\nEscolha: ");
-
-                    int op = leia.nextInt();
-
-                    if (op == 1) {
-                        System.out.print("\nDigite a quantidade: ");
-                        quantidade = leia.nextInt();
-
-                        if (produtoEncontrado.getQuantidade() <= 0) {
-                            System.out.println("Estoque zerado");
-                            return;
-
-                        } else if (quantidade <= 0) {
-                            System.out.println("Quantidade inválida");
-                        } else if (produtoEncontrado.getQuantidade() < quantidade) {
-                            System.out.println("Estoque insuficiente");
-                            System.out.println("Estoque: " + produtoEncontrado.getQuantidade());
-                        } else {
-                            System.out.println("\nProduto: " + produtoEncontrado.getNome());
-                            System.out.printf("Total R$%.2f\n", (produtoEncontrado.getValor() * quantidade));
-                            break;
-                        }
-                    } else if (op == 2) {
-                        System.out.println("Venda cancelada!");
-                        return;
-                    } else {
-                        System.out.println("Opção Inválida");
-                    }
-                }
-                if (quantidade == 0) {
-                    continue;
-                }
-                double valorAtual = produtoEncontrado.getValor() * quantidade;
-
-                while (!pagamentoAprovado) {
-
-                    System.out.println("\nForma de pagamento:\n");
-                    System.out.println("Digite 01 - Dinheiro");
-                    System.out.println("Digite 02 - Cartão");
-                    System.out.println("Digite 03 - Pix");
-                    System.out.println("Digite 04 - Cancelar\n");
-
-                    System.out.print("Escola a opção: ");
-                    int pagamento = leia.nextInt();
-
-                    if (pagamento == 1) {
-                        System.out.print("\nDigite o valor recebido R$ " );
-                        double valor = leia.nextDouble();
-
-                        if (valor < valorAtual) {
-                            System.out.printf("\nValor insuficiente está faltando R$%.2f", (valorAtual - valor));
-
-                        } else {
-                            if (valor > valorAtual) {
-                                System.out.print("\nTroco R$" + (valor - valorAtual));
-                            }
-                            pagamentoAprovado = true;
-                        }
-
-                    } else if (pagamento == 2) {
-
-                        int opcao;
-                        boolean controlePagamento = true;
-
-                        while (true) {
-                            System.out.println("\nDigite 01 - Débito\nDigite 02 - Crédito");
-                            System.out.print("\nEscola a opção:");
-                            opcao = leia.nextInt();
-                            if (opcao == 2) {
-                               controlePagamento = true;
-                                break;
-                            }else if(opcao == 1){
-                                controlePagamento = false;
-                                break;
-                            }
-                        }
-                        while (controlePagamento) {
-                            if (valorAtual >= 100) {
-                                System.out.println("\nDeseja parcela?");
-                                System.out.println("\nDigite 01 - Sim");
-                                System.out.println("Digite 02 - Não");
-                                System.out.println("Digite 03 - Cancelar");
-
-                                System.out.print("\nEscola a opção: ");
-                                int opcao05 = 0;
-                                opcao05 = leia.nextInt();
-
-                                if (opcao05 == 1) {
-                                    System.out.print("Digite a quantidade de parcelas: ");
-                                    int parcela = leia.nextInt();
-                                    if (parcela <= 10) {
-                                        for (int i = 1; i <= parcela; i++) {
-                                            double parcelado = valorAtual / parcela;
-                                            System.out.printf("Parcela %d Valor R$%.2f\n", i, parcelado);
-                                        }
-                                        System.out.printf("\nValor total R$%.2f\n", valorAtual);
-                                    } else {
-                                        System.out.println("\nMaximo 10x");
-                                        continue;
-                                    }
-                                }
-                            }
-                            System.out.println("\nCompra aprovada? \nDigite 01-Sim  \nDigite 02-Não");
-                            System.out.print("\nEscola a opção: ");
-                            opcao = leia.nextInt();
-
-                            if (opcao == 1) {
-                                pagamentoAprovado = true;
-                                break;
-                            } else if (opcao == 2) {
-                                System.out.println("Pagamento recusado");
-                                break;
-                            }
-                        }
-                    } else if (pagamento == 3) {
-                        ImageIcon icone = new ImageIcon(
-                                getClass().getResource("/Images/qrcode.jpeg")
-                        );
-
-                        JFrame janela = new JFrame();
-                        janela.setAlwaysOnTop(true);
-                        janela.setLocationRelativeTo(null);
-
-                        JOptionPane.showMessageDialog(
-                                janela, null, "",
-                                JOptionPane.PLAIN_MESSAGE,
-                                icone
-                        );
-
-                        janela.dispose();
-
-                        System.out.println("Leia o QRCODE");
-
-                        while (true) {
-                            System.out.println("\nCompra aprovada? \nDigite 01-Sim \nDigite 02-Não");
-                            int opcao = leia.nextInt();
-
-                            if (opcao == 1) {
-                                pagamentoAprovado = true;
-                                break;
-                            } else if (opcao == 2) {
-                                System.out.println("Pagamento recusado");
-                                break;
-                            }
-                        }
-                    } else if (pagamento == 4) {
-                        System.out.println("Compra cancelada");
-                        break;
-                    }
-                }
-                if (!pagamentoAprovado) {
-                    continue;
-                }
-                produtoEncontrado.setQuantidade(produtoEncontrado.getQuantidade() - quantidade);
-
-                System.out.println("\nVenda finalizada!");
-
-                Venda relatorio = new Venda();
-                relatorio.setNomeProdutoVendido(produtoEncontrado.getNome());
-                relatorio.setQuantidadeProdutoVendido(quantidade);
-                relatorio.setValorDoDoProdutoVendido(valorAtual);
-
-                relatorioVendas.add(relatorio);
-
-                Notafiscal nota = new Notafiscal();
-                nota.gerarNota(produtoEncontrado.getNome(), quantidade, valorAtual, cpfNota);
-
-                control = false;
-
-            } else {
-                System.out.println("Produto não encontrado");
+                System.out.println("Opção Inválida");
             }
         }
-    }
 
-    public String getNomeProdutoVendido() {
-        return nomeProdutoVendido;
-    }
+            System.out.println("\nRealizar venda");
 
-    public void setNomeProdutoVendido(String nomeProdutoVendido) {
-        this.nomeProdutoVendido = nomeProdutoVendido;
-    }
+            boolean control = true;
+            while (control) {
 
-    public double getValorDoDoProdutoVendido() {
-        return valorDoDoProdutoVendido;
-    }
+                boolean pagamentoAprovado = false;
+                Produto produtoEncontrado = null;
 
-    public void setValorDoDoProdutoVendido(double valorDoDoProdutoVendido) {
-        this.valorDoDoProdutoVendido = valorDoDoProdutoVendido;
-    }
+                System.out.println("\nBuscar produto: ");
+                System.out.println("\nDigite 01 - Nome");
+                System.out.println("Digite 02 - ID");
+                System.out.println("Digite 03 - Voltar\n");
+                System.out.print("Digite opção: ");
+                int buscaProduto = leia.nextInt();
+                leia.nextLine();
 
-    public int getQuantidadeProdutoVendido() {
-        return quantidadeProdutoVendido;
-    }
+                if (buscaProduto == 1) {
+                    System.out.print("\nDigite o nome do produto: ");
+                    String nomeBuscado = leia.nextLine();
 
-    public void setQuantidadeProdutoVendido(int quantidadeProdutoVendido) {
-        this.quantidadeProdutoVendido = quantidadeProdutoVendido;
+                    for (Produto produto : lista) {
+                        if (produto.getNome().equals(nomeBuscado)) {
+                            produtoEncontrado = produto;
+                            break;
+                        }
+                    }
+                } else if (buscaProduto == 2) {
+                    System.out.print("Digite o ID do produto: ");
+                    int idBuscado = leia.nextInt();
+
+                    for (Produto produto : lista) {
+                        if (produto.getId() == idBuscado) {
+                            produtoEncontrado = produto;
+                            break;
+                        }
+                    }
+                } else if (buscaProduto == 3) {
+                    break;
+                } else {
+                    System.out.println("\nOpção inválida");
+                    continue;
+                }
+                if (produtoEncontrado != null) {
+
+                    System.out.println("\nProduto encontrado!");
+                    produtoEncontrado.imprimeProduto();
+
+                    int quantidade;
+
+                    while (true) {
+                        System.out.println("\nDigite 01 - Escolher quantidade");
+                        System.out.println("Digite 02 - Cancelar venda");
+                        System.out.print("\nEscolha: ");
+
+                        int op = leia.nextInt();
+
+                        if (op == 1) {
+                            System.out.print("\nDigite a quantidade: ");
+                            quantidade = leia.nextInt();
+
+                            if (produtoEncontrado.getQuantidade() <= 0) {
+                                System.out.println("Estoque zerado");
+                                return;
+
+                            } else if (quantidade <= 0) {
+                                System.out.println("Quantidade inválida");
+                            } else if (produtoEncontrado.getQuantidade() < quantidade) {
+                                System.out.println("Estoque insuficiente");
+                                System.out.println("Estoque: " + produtoEncontrado.getQuantidade());
+                            } else {
+                                System.out.println("\nProduto: " + produtoEncontrado.getNome());
+                                System.out.printf("Total R$%.2f\n", (produtoEncontrado.getValor() * quantidade));
+                                break;
+                            }
+                        } else if (op == 2) {
+                            System.out.println("Venda cancelada!");
+                            return;
+                        } else {
+                            System.out.println("Opção Inválida");
+                        }
+                    }
+                    if (quantidade == 0) {
+                        continue;
+                    }
+                    double valorAtual = produtoEncontrado.getValor() * quantidade;
+
+                    while (!pagamentoAprovado) {
+
+                        System.out.println("\nForma de pagamento:\n");
+                        System.out.println("Digite 01 - Dinheiro");
+                        System.out.println("Digite 02 - Cartão");
+                        System.out.println("Digite 03 - Pix");
+                        System.out.println("Digite 04 - Cancelar\n");
+
+                        System.out.print("Escola a opção: ");
+                        int pagamento = leia.nextInt();
+
+                        if (pagamento == 1) {
+                            System.out.print("\nDigite o valor recebido R$ ");
+                            double valor = leia.nextDouble();
+
+                            if (valor < valorAtual) {
+                                System.out.printf("\nValor insuficiente está faltando R$%.2f", (valorAtual - valor));
+
+                            } else {
+                                if (valor > valorAtual) {
+                                    System.out.print("\nTroco R$" + (valor - valorAtual));
+                                }
+                                pagamentoAprovado = true;
+                            }
+
+                        } else if (pagamento == 2) {
+
+                            int opcao;
+                            boolean controlePagamento = true;
+
+                            while (true) {
+                                System.out.println("\nDigite 01 - Débito\nDigite 02 - Crédito");
+                                System.out.print("\nEscola a opção:");
+                                opcao = leia.nextInt();
+                                if (opcao == 2) {
+                                    controlePagamento = true;
+                                    break;
+                                } else if (opcao == 1) {
+                                    controlePagamento = false;
+                                    break;
+                                }
+                            }
+                            while (controlePagamento) {
+                                if (valorAtual >= 100) {
+                                    System.out.println("\nDeseja parcela?");
+                                    System.out.println("\nDigite 01 - Sim");
+                                    System.out.println("Digite 02 - Não");
+                                    System.out.println("Digite 03 - Cancelar");
+
+                                    System.out.print("\nEscola a opção: ");
+                                    int opcao05 = 0;
+                                    opcao05 = leia.nextInt();
+
+                                    if (opcao05 == 1) {
+                                        System.out.print("Digite a quantidade de parcelas: ");
+                                        int parcela = leia.nextInt();
+                                        if (parcela <= 10) {
+                                            for (int i = 1; i <= parcela; i++) {
+                                                double parcelado = valorAtual / parcela;
+                                                System.out.printf("Parcela %d Valor R$%.2f\n", i, parcelado);
+                                            }
+                                            System.out.printf("\nValor total R$%.2f\n", valorAtual);
+                                        } else {
+                                            System.out.println("\nMaximo 10x");
+                                            continue;
+                                        }
+                                    }
+                                }
+                                System.out.println("\nCompra aprovada? \nDigite 01-Sim  \nDigite 02-Não");
+                                System.out.print("\nEscola a opção: ");
+                                opcao = leia.nextInt();
+
+                                if (opcao == 1) {
+                                    pagamentoAprovado = true;
+                                    break;
+                                } else if (opcao == 2) {
+                                    System.out.println("Pagamento recusado");
+                                    break;
+                                }
+                            }
+                        } else if (pagamento == 3) {
+                            ImageIcon icone = new ImageIcon(
+                                    getClass().getResource("/Images/qrcode.jpeg")
+                            );
+
+                            JFrame janela = new JFrame();
+                            janela.setAlwaysOnTop(true);
+                            janela.setLocationRelativeTo(null);
+
+                            JOptionPane.showMessageDialog(
+                                    janela, null, "",
+                                    JOptionPane.PLAIN_MESSAGE,
+                                    icone
+                            );
+
+                            janela.dispose();
+
+                            System.out.println("Leia o QRCODE");
+
+                            while (true) {
+                                System.out.println("\nCompra aprovada? \nDigite 01-Sim \nDigite 02-Não");
+                                int opcao = leia.nextInt();
+
+                                if (opcao == 1) {
+                                    pagamentoAprovado = true;
+                                    break;
+                                } else if (opcao == 2) {
+                                    System.out.println("Pagamento recusado");
+                                    break;
+                                }
+                            }
+                        } else if (pagamento == 4) {
+                            System.out.println("Compra cancelada");
+                            break;
+                        }
+                    }
+                    if (!pagamentoAprovado) {
+                        continue;
+                    }
+                    produtoEncontrado.setQuantidade(produtoEncontrado.getQuantidade() - quantidade);
+
+                    System.out.println("\nVenda finalizada!");
+
+                    Venda relatorio = new Venda();
+                    relatorio.setNomeProdutoVendido(produtoEncontrado.getNome());
+                    relatorio.setQuantidadeProdutoVendido(quantidade);
+                    relatorio.setValorDoDoProdutoVendido(valorAtual);
+
+                    relatorioVendas.add(relatorio);
+
+                    Notafiscal nota = new Notafiscal();
+                    nota.gerarNota(produtoEncontrado.getNome(), quantidade, valorAtual, cpfNota);
+
+                    control = false;
+
+                } else {
+                    System.out.println("Produto não encontrado");
+                }
+            }
+        }
+
+        public String getNomeProdutoVendido () {
+            return nomeProdutoVendido;
+        }
+
+        public void setNomeProdutoVendido (String nomeProdutoVendido){
+            this.nomeProdutoVendido = nomeProdutoVendido;
+        }
+
+        public double getValorDoDoProdutoVendido () {
+            return valorDoDoProdutoVendido;
+        }
+
+        public void setValorDoDoProdutoVendido ( double valorDoDoProdutoVendido){
+            this.valorDoDoProdutoVendido = valorDoDoProdutoVendido;
+        }
+
+        public int getQuantidadeProdutoVendido () {
+            return quantidadeProdutoVendido;
+        }
+
+        public void setQuantidadeProdutoVendido ( int quantidadeProdutoVendido){
+            this.quantidadeProdutoVendido = quantidadeProdutoVendido;
+        }
     }
-}
