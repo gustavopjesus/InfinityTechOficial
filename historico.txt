@@ -12,3 +12,5 @@
 2026-05-21T17:47:22.340855500 -       | Nome: ' | ID: 4 | Valor: R$30000.0 | Quantidade: 3
 2026-05-21T17:47:47.832051 -       | Nome: PC GAMER I5400F | ID: 5 | Valor: R$3400.0 | Quantidade: 15
 2026-05-21T17:48:22.749271700 -       | Nome: MONITOR 24 POL. | ID: 6 | Valor: R$650.0 | Quantidade: 56
+2026-05-23T20:02:19.954179400 -       | Nome: l | ID: 7 | Valor: R$12.0 | Quantidade: 2
+2026-05-23T20:12:09.903605 -       | Nome: regregfdv | ID: 8 | Valor: R$5.0 | Quantidade: 13

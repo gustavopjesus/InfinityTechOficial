@@ -9,7 +9,6 @@ public class StartNow {
 
         ArrayList<Produto> lista = Produto.carregarProdutos();
         if (lista.isEmpty()) {
-          //  new Produto().produtoCadastrado(lista);
         }
 
         ArrayList<Venda> relatorioVendas = Venda.carregarVendas();
