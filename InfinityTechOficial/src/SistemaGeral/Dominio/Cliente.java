@@ -18,12 +18,6 @@ public class Cliente implements Serializable {
         this.telefone = "11912578787";
         this.email = "gustavopaulodejesus797@gmail.com";
 
-//        String [] preCadastro = new String[4];
-//        preCadastro[0] = "Gustavo";
-//        preCadastro[1] = "481172818136";
-//        preCadastro[2] = "11912578787";
-//        preCadastro[3] = "gustavopaulodejesus797@gmail.com";
-
         clientes.add(this);
     }
 
@@ -55,16 +49,22 @@ public class Cliente implements Serializable {
     }
 
 
-    public void cadastrarCliente(Scanner leia, ArrayList<Cliente> clientes){
-        System.out.println("-----------------------------");
-        System.out.println("    Cadastro de cliente");
-        System.out.println("-----------------------------");
+    public void cadastrarCliente(Scanner leia, ArrayList<Cliente> clientes) {
+        System.out.println("\n╔══════════════════════════╗");
+        System.out.println("║    Cadastro de cliente   ║");
+        System.out.println("╚══════════════════════════╝");
 
         System.out.print("\nDigite o nome do cliente: ");
         nome = leia.nextLine();
 
-        System.out.print("\nDigite o telefone: ");
-        telefone = leia.nextLine();
+        System.out.print("Digite o telefone (com DDD, apenas números): ");
+        telefone = leia.nextLine().trim();
+
+        while (!telefone.matches("\\d{11}")) {
+            System.out.println("Telefone inválido! Digite 11 números com DDD");
+            System.out.print("Digite o telefone: ");
+            telefone = leia.nextLine().trim();
+        }
 
         boolean cpfContinua = true;
 
@@ -74,7 +74,7 @@ public class Cliente implements Serializable {
 
             cpf = cpf.replaceAll("[^0-9]", "");
 
-            if (cpf.length() != 11){
+            if (cpf.length() != 11) {
                 System.out.println("CPF inválido");
                 continue;
             }
@@ -83,70 +83,82 @@ public class Cliente implements Serializable {
                 System.out.println("CPF inválido");
                 continue;
             }
-             int soma = 0;
 
-        for (int i = 0; i<9; i++){
-            soma+= (cpf.charAt(i) - '0') * (10 - i);
-        }
-        int primeirodig = 11 - (soma % 11);
+            int soma = 0;
+            for (int i = 0; i < 9; i++) {
+                soma += (cpf.charAt(i) - '0') * (10 - i);
+            }
+            int primeirodig = 11 - (soma % 11);
+            if (primeirodig >= 10) primeirodig = 0;
+            if (primeirodig != (cpf.charAt(9) - '0')) {
+                System.out.println("CPF inválido");
+                continue;
+            }
 
-        if (primeirodig>=10){
-            primeirodig = 0;
-        }
-        if (primeirodig !=(cpf.charAt(9) - '0')){
-            System.out.println("CPF inválido");
-            continue;
-        }
-        soma = 0;
+            soma = 0;
+            for (int i = 0; i < 10; i++) {
+                soma += (cpf.charAt(i) - '0') * (11 - i);
+            }
+            int segundodig = 11 - (soma % 11);
+            if (segundodig >= 10) segundodig = 0;
+            if (segundodig != (cpf.charAt(10) - '0')) {
+                System.out.println("CPF inválido");
+                continue;
+            }
 
-        for (int i = 0; i<10; i++){
-            soma += (cpf.charAt(i) - '0') * (11-i);
-        }
-        int segundodig = 11 - (soma % 11);
 
-        if (segundodig>=10){
-            segundodig = 0;
-        }
-        if (segundodig != (cpf.charAt(10) - '0')) {
-            System.out.println("CPF inválido");
-            continue;
-        }
-        boolean cpfEncontrado = false;
+            boolean cpfEncontrado = false;
+            for (Cliente cli : clientes) {
+                if (cli.getCpf().equals(cpf)) {
+                    cpfEncontrado = true;
+                    break;
+                }
+            }
+
+            if (!cpfEncontrado) {
+                System.out.println("\n╔══════════════════════════╗");
+                System.out.println("║     CPF já cadastrado    ║");
+                System.out.println("╠══════════════════════════╣");
+                System.out.println("║01 - Digitar outro CPF    ║");
+                System.out.println("║02 - Sair                 ║");
+                System.out.println("╚══════════════════════════╝");
+                System.out.print("\n   Escolha a opção: ");
+                String opcao = leia.nextLine().trim();
+
+                if (opcao.equals("1") || opcao.equals("01")) {
+                    continue;
+                } else {
+                    return;
+                }
+            }
 
             System.out.print("Digite o email: ");
             email = leia.nextLine();
 
-        for (Cliente cli: clientes){
-            if (cli.getCpf().equals(cpf)){
-                cpfEncontrado = true;
-                System.out.println("\nCliente Cadastrado com sucesso!");
-                System.out.println("Cliente: " + cli.getNome() + "\nCPF: " + cli.getCpf());
-                break;
-            }
+            clientes.add(this);
+            System.out.println("\nCliente cadastrado com sucesso!");
+            cpfContinua = false;
         }
-            if (!cpfEncontrado){
-                System.out.println("Cliente não cadastrado!");
-                cliente.cadastrarCliente(leia, clientes);
-            }
-        cpfContinua = false;
-}
-}
-    public void imprimeCliente(){
-        System.out.println("Nome: "+this.nome);
-        System.out.println("CPF: "+this.cpf);
-        System.out.println("Telefone: "+this.telefone);
-        System.out.println("Email: "+this.email);
     }
-    public void listaClinte(ArrayList<Cliente> clientes){
-        for(Cliente c : clientes){
+
+    public void imprimeCliente() {
+        System.out.println("Nome: " + this.nome);
+        System.out.println("CPF: " + this.cpf);
+        System.out.println("Telefone: " + this.telefone);
+        System.out.println("Email: " + this.email);
+    }
+
+    public void listaClinte(ArrayList<Cliente> clientes) {
+        for (Cliente c : clientes) {
             System.out.println("=============================");
-            System.out.println("Nome: "+c.getNome());
-            System.out.println("CPF: "+c.getCpf());
-            System.out.println("Telefone: "+c.getTelefone());
-            System.out.println("Email: "+c.getEmail());
+            System.out.println("Nome: " + c.getNome());
+            System.out.println("CPF: " + c.getCpf());
+            System.out.println("Telefone: " + c.getTelefone());
+            System.out.println("Email: " + c.getEmail());
             System.out.println("=============================");
         }
     }
+
     public String getNome() {
         return nome;
     }

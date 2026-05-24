@@ -9,7 +9,6 @@ public class StartNow {
 
         ArrayList<Produto> lista = Produto.carregarProdutos();
         if (lista.isEmpty()) {
-          //  new Produto().produtoCadastrado(lista);
         }
 
         ArrayList<Venda> relatorioVendas = Venda.carregarVendas();
@@ -268,6 +267,7 @@ public class StartNow {
                     break;
                 case 3:
                     System.out.println("Saindo do sistema...");
+                    return;
                 default:
                     System.out.println("\nOpção ivalida");
                     System.out.println("Tente novamente\n");
