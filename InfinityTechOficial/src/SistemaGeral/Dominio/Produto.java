@@ -29,7 +29,6 @@ public class Produto implements Serializable {
         try (ObjectInputStream ois = new ObjectInputStream(
                 new FileInputStream("produtos.dat"))) {
             ArrayList<Produto> lista = (ArrayList<Produto>) ois.readObject();
-            System.out.println(lista.size() + " produto(s) carregado(s).");
             return lista;
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Erro ao carregar produtos: " + e.getMessage());
